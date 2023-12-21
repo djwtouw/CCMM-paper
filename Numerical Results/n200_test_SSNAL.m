@@ -25,6 +25,6 @@ X = csvread(path)';
 clusterpath = transform_output(output_ssnal);
 
 %% Write output
-output_path = "Output/SSNAL Clusterpaths/n200_ssnal_clusterpath.csv";
+output_path = "Output/n200_ssnal_clusterpath.csv";
 writematrix(clusterpath, output_path);
 

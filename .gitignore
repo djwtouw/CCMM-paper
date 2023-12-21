@@ -1,6 +1,7 @@
-# Ignore these files
+# Ignore these files to save space
 Numerical Results/Data/UCI/power_consumption.csv
 Numerical Results/Data/MNIST
+Numerical Results/Data/Grid/X*
 
 # Ignore files with clusterpaths created by SSNAL due to file size limitations
 Numerical Results/Output/SSNAL Clusterpaths/n?000_*_ssnal_clusterpath.csv
