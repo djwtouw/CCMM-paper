@@ -1,6 +1,5 @@
 %**************************************************************************
-% Computes clusterpath for n = 200 to test whether everything is working
-% correctly. Compared to output of other algorithms in n200_test.R
+% Computes clusterpaths for select data sets from the UCI repository.
 %**************************************************************************
 
 clear all;
@@ -11,7 +10,7 @@ addpath(strcat(pwd,"/Matlab/utils_added"));
 % Load results generated in R
 [values, rownames, colnames] = load_uci_results("Output/uci_results.csv");
 
-for i = 1:3
+for i = 1:4
     pathX = strcat("Data/UCI/", rownames(i), "_X_umap.csv");
     pathG = strcat("Data/UCI/", rownames(i), "_lambdas.csv");
     

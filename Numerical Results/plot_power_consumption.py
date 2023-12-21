@@ -1,6 +1,6 @@
 """
 Code to create images for the results of using convex clustering on the
-individual household electric powert consumption data set. LaTeX is required.
+individual household electric power consumption data set. LaTeX is required.
 
 """
 
@@ -154,6 +154,14 @@ def plot_dendr(dendr, leaf_len, lc, lw, text_offset, fs, draw_labels=True,
     return None
 
 
+# Colorblind safe colors
+colors = [(102, 194, 165),
+          (252, 141, 98),
+          (141, 160, 203)]
+for c_i in range(len(colors)):
+    colors[c_i] = [c / 255 for c in colors[c_i]]
+
+
 # %% Load data
 
 data = pd.read_csv("Numerical Results/Data/UCI/power_consumption.csv")
@@ -161,13 +169,12 @@ clusters = np.genfromtxt("Numerical Results/Output/power_consumption_" +
                          "clusters_1M.csv", dtype=int, delimiter=",")
 data = data.iloc[:clusters.shape[1], :]
 
-colors = sns.color_palette("muted", 3)
 
 # %% Histogram for clusters
 
 plt.figure(figsize=[2.5, 2], dpi=500)
 pc_hist(data, clusters[0, :], 1, True, 5, colors[1])
-pc_hist(data, clusters[0, :], 0, True, 5, colors[0])
+pc_hist(data, clusters[0, :], 0, True, 5, colors[2])
 
 plt.xticks([0, 480, 960, 1440], ["00:00", "08:00", "16:00", "24:00"],
            fontsize=7)
@@ -179,7 +186,7 @@ plt.ylim([0, 12500])
 plt.xlim([0, 1440])
 
 
-legend_elements = [Patch(facecolor=(colors[0][0], colors[0][1], colors[0][2],
+legend_elements = [Patch(facecolor=(colors[2][0], colors[2][1], colors[2][2],
                                     0.25), edgecolor="black",
                          label="Cluster A", lw=0.5),
                    Patch(facecolor=(colors[1][0], colors[1][1], colors[1][2],
@@ -302,7 +309,7 @@ def setcol(index, color, merge, linecols):
 
 setcol(18, "black", merge, linecols)
 setcol(17, colors[1], merge, linecols)
-setcol(11, colors[0], merge, linecols)
+setcol(11, colors[2], merge, linecols)
 
 fs = 10
 fig = plt.figure(figsize=[2.06, 2.95], dpi=500)

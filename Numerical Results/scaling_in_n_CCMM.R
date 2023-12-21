@@ -30,22 +30,25 @@ for (i in 1:length(n)) {
         W = sparse_weights(X, k = k, phi = phi, scale = FALSE, 
                            connected = FALSE)
         
-        # Find lambda for the numbers of clusters around 90% of the data
-        lambdas = seq(0, 0.006, 0.000025)
-        res = convex_clusterpath(X, W, lambdas, scale = FALSE, center = FALSE,
-                                 save_clusterpath = FALSE)
+        # Search for numbers of clusters around 90% of the data
+        res = convex_clustering(X, W, n[i] * 0.87, n[i] * 0.93, scale = FALSE,
+                                center = FALSE, save_clusterpath = FALSE, 
+                                lambda_init = 0.00001)
         lambda_idx = which.min(abs(res$info$clusters - 0.9 * n[i]))
-        lambda = res$lambdas[lambda_idx]
+        lambda = res$info[lambda_idx, "lambda"]
         
         # Set sequence for lambda
-        lambdas = seq(0, lambda, lambda / 100)^2 / lambda
+        lambdas = seq(0, lambda, length.out = 101) # 101 because the first value
+                                                   # is zero
         
         # Compute clusterpath
-        res = convex_clusterpath(X, W, lambdas, scale = FALSE, center = FALSE)
+        res = convex_clusterpath(X, W, lambdas, scale = FALSE, center = FALSE,
+                                 save_clusterpath = FALSE)
         
         # Store the times
         result[i, "time"] = result[i, "time"] + res$elapsed_time
-        result[i, "iterations"] = result[i, "iterations"] + sum(res$info[, "iterations"])
+        result[i, "iterations"] = result[i, "iterations"] + 
+            sum(res$info[, "iterations"])
         result[i, "n_lambdas"] = result[i, "n_lambdas"] + length(lambdas) - 1
         
         print(result)

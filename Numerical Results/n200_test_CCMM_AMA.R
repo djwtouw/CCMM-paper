@@ -51,7 +51,7 @@ plot(ama, y)
 # Load the results of SSNAL for n = 200
 ################################################################################
 
-ssnal = as.matrix(read.csv(paste("Numerical Results/Output/SSNAL Clusterpaths/", 
+ssnal = as.matrix(read.csv(paste("Numerical Results/Output/", 
                                  "n200_ssnal_clusterpath.csv",
                                  sep = ""), header = FALSE))
 ssnal = convert_to_cp(ssnal, lambdas, ama = F)

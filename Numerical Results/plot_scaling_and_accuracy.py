@@ -19,27 +19,35 @@ rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 rc('text', usetex=True)
 
 
+# Colorblind safe colors
+colors = [(102, 194, 165),
+          (252, 141, 98),
+          (141, 160, 203)]
+for c_i in range(len(colors)):
+    colors[c_i] = [c / 255 for c in colors[c_i]]
+
+
 # %% Scaling in n for CCMM
 
 timings = pd.read_csv("Numerical Results/Output/scaling_n_ccmm.csv")
 
 labels = ["CCMM", "AMA", "SSNAL"]
-colors = sns.color_palette("muted", 3)
 lw = 0.75
 
-plt.figure(dpi=400, figsize=[6, 2])
+plt.figure(dpi=500, figsize=[6, 2])
 plt.subplot(1, 2, 1)
 
 plt.plot(timings["n"], timings["time"] / timings["iterations"] / 5,
-         label=labels[0], color=colors[0], lw=lw)
+         label=labels[0], color=colors[2], lw=lw)
 plt.xlabel("Number of objects $n$", fontsize=10)
 plt.ylabel("Time (s)", fontsize=10)
 plt.xticks([6000, 9500, 13000, 16500, 20000],
            ["6,000", "9,500", "13,000", "16,500", "20,000"],
            fontsize=7)
-plt.yticks([0.0010, 0.0015, 0.0020, 0.0025, 0.0030, 0.0035, 0.0040],
+plt.yticks([0.0005, 0.0010, 0.0015, 0.0020, 0.0025, 0.0030, 0.0035],
            fontsize=7)
-plt.ylim([0.0007, 0.0043])
+plt.ylim([0.0002, 0.0038])
+plt.legend(loc=2, fontsize=7, frameon=False, ncol=2)
 
 plt.savefig("Numerical Results/Figures/" +
             "scaling_in_n.pdf", bbox_inches="tight")
@@ -52,18 +60,17 @@ timings = timings.drop("completed", axis=1) / 10
 timings_log = timings.applymap(np.log)
 
 labels = ["CCMM", "AMA", "SSNAL"]
-colors = sns.color_palette("muted", 3)
 lw = 0.75
 
-plt.figure(dpi=400, figsize=[6, 2])
+plt.figure(dpi=500, figsize=[6, 2])
 plt.subplot(1, 2, 1)
 
 plt.plot(timings_log["CCMM"], label=labels[0], linewidth=lw,
-         c=colors[0])
+         c=colors[2])
 plt.plot(timings_log["AMA"], label=labels[1], linewidth=lw,
          c=colors[1])
 plt.plot(timings_log["SSNAL"], label=labels[2], linewidth=lw,
-         c=colors[2])
+         c=colors[0])
 
 plt.xlabel("Number of objects $n$", fontsize=10)
 plt.ylabel("Time (s)", fontsize=10)
@@ -78,7 +85,6 @@ plt.tick_params(axis='y', pad=17)
 plt.ylim([np.log(0.1) - (np.log(100) - np.log(10)) * 0.6,
           np.log(1e5) + (np.log(100) - np.log(10)) * 0.6])
 plt.legend(loc=2, fontsize=7, frameon=False, ncol=2)
-
 
 plt.savefig("Numerical Results/Figures/n1000_to_5000_timings.pdf",
             bbox_inches="tight")
@@ -95,28 +101,25 @@ ratios["SSNAL"] /= losses["SSNAL"]
 lambdas = np.arange(0.2, 110.1, 0.2)
 M = 120
 
-plt.figure(dpi=400, figsize=[6, 2])
+plt.figure(dpi=500, figsize=[6, 2])
 plt.subplot(1, 2, 1)
 
-plt.plot(lambdas[lambdas <= M], ratios["CCMM"][lambdas <= M],
-         label=labels[0], linewidth=lw, c=colors[0])
 plt.plot(lambdas[lambdas <= M], ratios["AMA"][lambdas <= M],
          label=labels[1], linewidth=lw, c=colors[1])
 plt.plot(lambdas[lambdas <= M], ratios["SSNAL"][lambdas <= M],
-         label=labels[2], linewidth=lw, c=colors[2])
+         label=labels[2], linewidth=lw, c=colors[0])
+plt.plot(lambdas[lambdas <= M], ratios["CCMM"][lambdas <= M],
+         label=labels[0], linewidth=lw, c=colors[2])
 
 
 plt.xticks(fontsize=7)
-plt.yticks([1.0000, 1.00005, 1.00010, 1.00015, 1.00020, 1.00025],
-           ["1.00000", "1.00005", "1.00010", "1.00015", "1.00020", "1.00025"],
+plt.yticks([0.9991, 0.9994, 0.9997, 1.0000, 1.0003],
+           ["0.9991", "0.9994", "0.9997", "1.0000", "1.0003"],
            fontsize=7)
-plt.ylim([0.999985, 1.000275])
-
+plt.ylim([0.99895, 1.00045])
 plt.legend(loc=2, fontsize=7, frameon=False, ncol=2)
-
 plt.xlabel("Regularization parameter $\lambda$", fontsize=10)
 plt.ylabel("Relative loss", fontsize=10)
-
 
 plt.savefig("Numerical Results/Figures/n1000_losses.pdf", bbox_inches="tight")
 
@@ -131,26 +134,23 @@ ratios["SSNAL"] /= losses["SSNAL"]
 
 lambdas = np.arange(0.2, 110.1, 0.2)
 
-plt.figure(dpi=400, figsize=[6, 2])
+plt.figure(dpi=500, figsize=[6, 2])
 plt.subplot(1, 2, 1)
 
-plt.plot(lambdas[lambdas <= M], ratios["CCMM"][lambdas <= M],
-         label=labels[0], linewidth=lw, c=colors[0])
 plt.plot(lambdas[lambdas <= M], ratios["AMA"][lambdas <= M],
          label=labels[1], linewidth=lw, c=colors[1])
 plt.plot(lambdas[lambdas <= M], ratios["SSNAL"][lambdas <= M],
-         label=labels[2], linewidth=lw, c=colors[2])
+         label=labels[2], linewidth=lw, c=colors[0])
+plt.plot(lambdas[lambdas <= M], ratios["CCMM"][lambdas <= M],
+         label=labels[0], linewidth=lw, c=colors[2])
 
 plt.xticks(fontsize=7)
-plt.yticks([1.0000, 1.0008, 1.0016, 1.0024, 1.0032, 1.0040],
-           ["1.00000", "1.00080", "1.00160", "1.00240", "1.00320", "1.00400"],
+plt.yticks([0.991, 0.994, 0.997, 1.000, 1.003],
+           ["0.9910", "0.9940", "0.9970", "1.0000", "1.0030"],
            fontsize=7)
-plt.ylim([1 - 0.0044 * 0.054545, 1.0044])
-
+plt.ylim([0.9895, 1.0045])
 plt.legend(loc=2, fontsize=7, frameon=False, ncol=2)
-
 plt.xlabel("Regularization parameter $\lambda$", fontsize=10)
 plt.ylabel("Relative loss", fontsize=10)
-
 
 plt.savefig("Numerical Results/Figures/n5000_losses.pdf", bbox_inches="tight")
