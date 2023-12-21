@@ -41,7 +41,8 @@ ax.set_yticklabels(labels=["$0$", "$1$", "$2$", "$3$", "$4$", "$5$", "$6$"],
 plt.ylabel(r"$\lambda^{1/2}$", fontsize=fs, rotation=0, labelpad=9)
 plt.ylim(0, int(height[-1]) + 0.6)
 
-plt.savefig("Methodology/Figures/Dendrogram.pdf", bbox_inches="tight")
+plt.savefig("Methodology/Figures/Dendrogram/Dendrogram.pdf",
+            bbox_inches="tight")
 
 
 # %%
@@ -54,6 +55,8 @@ plt.figure(figsize=[3, 2.2], dpi=300)
 plot_clusterpath(res, y, s=2.5, lw=0.4, fs_label=10, r_tol=2,
                  labels=["$1$", "$2$", "$3$", "$4$", "$5$", "$6$", "$7$"],
                  lab_x_off=[+0.00, +0.00, +0.00, +0.00, +0.00, +0.02, +0.00],
-                 lab_y_off=[+0.08, +0.08, +0.08, +0.08, +0.08, +0.08, +0.08])
+                 lab_y_off=[+0.08, +0.08, +0.08, +0.08, +0.08, +0.08, +0.08],
+                 colors=[(141/255, 160/255, 203/255)])
 plt.ylim([-1.4, 2.05])
-plt.savefig("Methodology/Figures/Dendrogram_cp.pdf", bbox_inches="tight")
+plt.savefig("Methodology/Figures/Dendrogram/Dendrogram_cp.pdf",
+            bbox_inches="tight")

@@ -60,18 +60,18 @@ write_clusterpath(res, "Methodology/Output/Dense_vs_Sparse/res_sparse.csv")
 
 
 ################################################################################
-# Symmetric Circulant
+# Connectedness
 ################################################################################
 
-X = as.matrix(read.csv("Methodology/Data/Sym_Circ/Sym_Circ_X.csv", 
+X = as.matrix(read.csv("Methodology/Data/Connectedness/X.csv", 
                        header = FALSE))
-y = as.matrix(read.csv("Methodology/Data/Sym_Circ/Sym_Circ_y.csv", 
+y = as.matrix(read.csv("Methodology/Data/Connectedness/y.csv", 
                        header = FALSE))
 
 
 # WITH SYMMETRIC CIRCULANT
 # Compute sparse weights
-W = sparse_weights(X, 3, 1.0, connected = TRUE)
+W = sparse_weights(X, 3, 1.0, connected = TRUE, connection_type = "SC")
 
 # Sequence for lambda
 lambdas = seq(0, 130, 0.5)
@@ -80,13 +80,28 @@ lambdas = seq(0, 130, 0.5)
 res = convex_clusterpath(X, W, lambdas)
 plot(res, y + 1)
 
-write_clusterpath(res, "Methodology/Output/Sym_Circ/res_SC.csv")
+write_clusterpath(res, "Methodology/Output/Connectedness/res_SC.csv")
 write.table(cbind(W$keys, W$values), 
-            "Methodology/Output/Sym_Circ/knn_weights_SC.csv",
+            "Methodology/Output/Connectedness/knn_weights_SC.csv",
             row.names = FALSE, col.names = FALSE)
 
+# WITH MINIMUM SPANNING TREE
+# Compute sparse weights
+W = sparse_weights(X, 3, 1.0, connected = TRUE, connection_type = "MST")
 
-# WITHOUT SYMMETRIC CIRCULANT
+# Sequence for lambda
+lambdas = seq(0, 1030, 0.5)
+
+# Compute results
+res = convex_clusterpath(X, W, lambdas)
+plot(res, y + 1)
+
+write_clusterpath(res, "Methodology/Output/Connectedness/res_MST.csv")
+write.table(cbind(W$keys, W$values), 
+            "Methodology/Output/Connectedness/knn_weights_MST.csv",
+            row.names = FALSE, col.names = FALSE)
+
+# DISCONNECTED
 # Compute sparse weights
 W = sparse_weights(X, 3, 1.0, connected = FALSE)
 
@@ -97,9 +112,9 @@ lambdas = seq(0, 160, 0.5)
 res = convex_clusterpath(X, W, lambdas)
 plot(res, y + 1)
 
-write_clusterpath(res, "Methodology/Output/Sym_Circ/res_nSC.csv")
+write_clusterpath(res, "Methodology/Output/Connectedness/res_DC.csv")
 write.table(cbind(W$keys, W$values),
-            "Methodology/Output/Sym_Circ/knn_weights_nSC.csv",
+            "Methodology/Output/Connectedness/knn_weights_DC.csv",
             row.names = FALSE, col.names = FALSE)
 
 
