@@ -2,7 +2,7 @@
 Code to replicate results in the paper _Convex Clustering through MM: An Efficient Algorithm to Perform Hierarchical Clustering_ by D.J.W. Touw, P.J.F. Groenen, and Y. Terada.
 
 ## Requirements
-The CCMM packages CCMMR and CCMMPy, available at https://github.com/djwtouw/CCMMR and https://github.com/djwtouw/CCMMPy, and their dependencies.
+The CCMM packages CCMMR and CCMMPy, available at https://github.com/djwtouw/CCMMR and https://github.com/djwtouw/CCMMPy, and their dependencies. The R-package for AMA, available at https://cran.r-project.org/src/contrib/Archive/cvxclustr/.
 
 ## Files
 Code to replicate results, contains the following:
